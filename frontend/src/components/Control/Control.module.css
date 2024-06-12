@@ -1,0 +1,45 @@
+.btn {
+  padding: 2px 8px;
+  color: #000;
+  background-color: transparent;
+  border: 1px solid transparent;
+  outline: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.btn_active {
+  padding: 2px 8px;
+  background: #356eff;
+  border-radius: 23px;
+  color: #fff;
+}
+
+.btn_active:hover {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.tasks_count {
+  margin: 0 0 0 3px;
+  color: #356eff;
+}
+
+.btn_active .tasks_count {
+  color: #fff;
+}
+
+@media (max-width: 364px) {
+  .flex {
+    display: flex;
+    flex-direction: column;
+  }
+}

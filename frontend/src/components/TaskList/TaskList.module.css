@@ -1,0 +1,37 @@
+.wrap {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  height: 95%;
+  overflow: auto;
+}
+
+.wrap::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.wrap::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 6px;
+}
+
+.noTask {
+  height: 340px;
+  padding: 32px;
+  background-image: url("../../assets/noTask.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 380px) {
+  .noTask {
+    background-size: 100%;
+  }
+}
+
+@media (max-height: 641px) {
+  .noTask {
+    padding: 0;
+  }
+}

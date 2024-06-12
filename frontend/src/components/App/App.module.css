@@ -1,0 +1,20 @@
+.wrap {
+  margin: auto;
+  padding-top: 87px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+}
+
+/* .header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 87px;
+} */
+
+.content {
+  display: flex;
+}

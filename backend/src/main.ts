@@ -11,6 +11,11 @@ async function bootstrap() {
 
   app.setGlobalPrefix('/api');
 
+  app.enableCors({
+    origin: '*',
+    credentials: true,
+  });
+  
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Todo')
     .setDescription('Документация REST API')
