@@ -42,9 +42,9 @@ export class TaskController {
   @Put('/change/:id')
   @ApiOperation({ summary: 'Редактирование задачи' })
   @ApiResponse({ status: 200, type: TaskResDto })
-  async changeTask(@Param('id') id: string, @Body() { name }: TaskDto) {
+  async changeTask(@Param('id') id: string, @Body() { name, isDone }: TaskDto) {
     try {
-      return await this.taskService.changeTask(id, name);
+      return await this.taskService.changeTask(id, name, isDone);
     } catch (e) {
       return errorHandler(
         {
@@ -56,22 +56,22 @@ export class TaskController {
     }
   }
 
-  @Put('/done/:id')
-  @ApiOperation({ summary: 'Изменение статуса задачи' })
-  @ApiResponse({ status: 200, type: TaskResDto })
-  async toggleDone(@Param('id') id: string, @Body() { isDone }: TaskDto) {
-    try {
-      return await this.taskService.toggleDone(id, isDone);
-    } catch (e) {
-      return errorHandler(
-        {
-          pointer: 'toggleDone controller',
-          text: 'Не удалось изменить статус задачи',
-        },
-        e,
-      );
-    }
-  }
+  // @Put('/done/:id')
+  // @ApiOperation({ summary: 'Изменение статуса задачи' })
+  // @ApiResponse({ status: 200, type: TaskResDto })
+  // async toggleDone(@Param('id') id: string, @Body() { isDone }: TaskDto) {
+  //   try {
+  //     return await this.taskService.toggleDone(id, isDone);
+  //   } catch (e) {
+  //     return errorHandler(
+  //       {
+  //         pointer: 'toggleDone controller',
+  //         text: 'Не удалось изменить статус задачи',
+  //       },
+  //       e,
+  //     );
+  //   }
+  // }
 
   @Delete('/delete/:id')
   @ApiOperation({ summary: 'Удаление задачи' })

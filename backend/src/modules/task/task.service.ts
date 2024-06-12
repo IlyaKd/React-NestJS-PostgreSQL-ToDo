@@ -25,12 +25,13 @@ export class TaskService {
     }
   }
 
-  async changeTask(id: string, name: string): Promise<TaskResDto> {
+  async changeTask(id: string, name: string, isDone: boolean): Promise<TaskResDto> {
     try {
       const task = await this.prisma.task.update({
         where: { id: parseInt(id, 10) },
         data: {
           name,
+          isDone,
         },
       });
 
@@ -46,28 +47,28 @@ export class TaskService {
     }
   }
 
-  async toggleDone(id: string, isDone: boolean): Promise<TaskResDto> {
-    try {
-      const task = this.prisma.task.update({
-        where: {
-          id: parseInt(id, 10),
-        },
-        data: {
-          isDone,
-        },
-      });
+  // async toggleDone(id: string, isDone: boolean): Promise<TaskResDto> {
+  //   try {
+  //     const task = this.prisma.task.update({
+  //       where: {
+  //         id: parseInt(id, 10),
+  //       },
+  //       data: {
+  //         isDone,
+  //       },
+  //     });
 
-      return task;
-    } catch (e) {
-      return errorHandler(
-        {
-          pointer: 'toggleDone service',
-          text: 'Не удалось изменить статус задачи',
-        },
-        e,
-      );
-    }
-  }
+  //     return task;
+  //   } catch (e) {
+  //     return errorHandler(
+  //       {
+  //         pointer: 'toggleDone service',
+  //         text: 'Не удалось изменить статус задачи',
+  //       },
+  //       e,
+  //     );
+  //   }
+  // }
 
   async deleteTask(id: string) {
     try {
