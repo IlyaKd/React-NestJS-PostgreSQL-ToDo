@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { ChangeEvent, FC, FocusEvent, KeyboardEvent, useEffect, useLayoutEffect, useState } from "react";
 import classnames from "classnames";
 import styles from "./Task.module.css";
 import deleteImg from "../../assets/delete.svg";
@@ -13,9 +13,29 @@ interface TaskProps {
   id: number;
 }
 
-const Task: FC<TaskProps> = ({ name, isDone, id }) => {
+const Task: FC<TaskProps> = ({ name: propsName, isDone, id }) => {
   const [changeTask] = useChangeTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
+  const [isEditing, setIsEditing] = useState(false);
+  const [taskName, setTaskName] = useState('')
+
+  useLayoutEffect(() => {
+    setTaskName(propsName)
+  }, [propsName])
+
+  useEffect(() => {
+    if (!isEditing && taskName && taskName !== propsName) {
+      const editTask = async () => {
+        await changeTask({
+          id,
+          params: {
+            name: taskName,
+          },
+        });
+      };
+      editTask();
+    }
+  }, [isEditing, taskName]);
 
   const handleClickDone = async (id: number) => {
     await changeTask({
@@ -25,6 +45,10 @@ const Task: FC<TaskProps> = ({ name, isDone, id }) => {
       },
     });
   };
+
+  const handleTaskChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTaskName(e.target.value);
+  }
 
   const handleClickDelete = async (id: number) => {
     await deleteTask(id);
@@ -37,16 +61,38 @@ const Task: FC<TaskProps> = ({ name, isDone, id }) => {
         htmlFor="checkbox"
         onClick={() => handleClickDone(id)}
         className={styles.checkbox_label}
+      />
+      <div
+        className={classnames({
+          [styles.task]: true,
+          [styles.done]: isDone,
+        })}
       >
-        <div
-          className={classnames({
-            [styles.task]: true,
-            [styles.done]: isDone,
-          })}
-        >
-          <span className={styles.ellipsis}>{name}</span>
-        </div>
-      </label>
+        {isEditing ? (
+          <input
+            type="text"
+            autoFocus
+            className={styles.input}
+            value={taskName}
+            onChange={handleTaskChange}
+            onBlur={(e: FocusEvent<HTMLInputElement>) => {
+              if (e.target.value.length > 0) setIsEditing(false);
+            }}
+            onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === "Enter") e.preventDefault();
+              if (
+                e.key === "Enter" &&
+                (e.target as HTMLInputElement).value.length > 0
+              )
+                setIsEditing(false);
+            }}
+          />
+        ) : (
+          <span onClick={() => setIsEditing(true)} className={styles.ellipsis}>
+            {taskName}
+          </span>
+        )}
+      </div>
       <button
         className={styles.btn_delete}
         onClick={() => handleClickDelete(id)}
